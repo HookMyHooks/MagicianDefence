@@ -471,6 +471,12 @@ MonoBehaviour:
   _MovementSpeed: 5
   _RotationSpeed: 60
   _JumpSpeed: 10
+  _animator: {fileID: 832440893}
+--- !u!95 &832440893 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 7549ca74b01b7cb4588277745a10fbbe, type: 3}
+  m_PrefabInstance: {fileID: 1304144542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
