@@ -11,45 +11,50 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        _animator = GetComponent<Animator>();   
+        _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        bool isMoving = false; // Tracks whether the player is moving
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
             transform.position += transform.forward * _MovementSpeed * Time.deltaTime;
             _animator.SetInteger("AnimState", 1);
+            isMoving = true;
             Debug.Log(_animator.GetInteger("AnimState"));
-
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position += -transform.forward * _MovementSpeed * Time.deltaTime;
-            //will be another value for a back running animation
-            _animator.SetInteger("AnimState", 1);
-
+            transform.position -= transform.forward * _MovementSpeed * Time.deltaTime * 0.5f;
+            _animator.SetInteger("AnimState", 2); // Adjust state for backward movement if needed
+            isMoving = true;
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.eulerAngles += Vector3.down * _RotationSpeed * Time.deltaTime;
-            _animator.SetInteger("AnimState", 2);
-
+            _animator.SetInteger("AnimState", 3);
+            isMoving = true;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.eulerAngles += Vector3.up * _RotationSpeed * Time.deltaTime;
-            _animator.SetInteger("AnimState", 3);
-
+            _animator.SetInteger("AnimState", 4);
+            isMoving = true;
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _rigidbody.AddForce(new Vector3(0, _JumpSpeed), ForceMode.Impulse);
         }
 
-        _animator.SetInteger("AnimState", 0);
+        // If no movement keys are pressed, set the animation state to idle
+        if (!isMoving)
+        {
+            _animator.SetInteger("AnimState", 0);
+        }
+        Debug.Log(_animator.GetInteger("AnimState"));
 
     }
 }

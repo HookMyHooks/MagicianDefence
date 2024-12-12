@@ -469,7 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _MovementSpeed: 5
-  _RotationSpeed: 60
+  _RotationSpeed: 90
   _JumpSpeed: 10
   _animator: {fileID: 832440893}
 --- !u!95 &832440893 stripped
