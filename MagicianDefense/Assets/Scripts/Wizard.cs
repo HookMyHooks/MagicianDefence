@@ -10,6 +10,11 @@ namespace Assets.Scripts.Utils
     public class Wizard : MonoBehaviour
     {
         private Rigidbody _rigidbody;
+
+        [Header("References")]
+        public Transform wandTip;           // Child la toiag
+        public GameObject fireballPrefab;   // Prefab pentru mingea de foc
+
         void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -24,14 +29,18 @@ namespace Assets.Scripts.Utils
         
         private SpellManager spellManager;
 
+
         private void Update()
         {
             bool isCasting = false;
 
 
-            if (Input.GetKey(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                spellManager.SelectedCategory = SpellType.Fire;
+                //aici daca apas pe 1 apare fireball, dar inca nu are implementari de mana si damage
+                Instantiate(fireballPrefab, wandTip.position, wandTip.rotation);
+            
+                //spellManager.SelectedCategory = SpellType.Fire;
                 //_animator.SetInteger("AnimState", 1);
                 //isMoving = true;
                 //Debug.Log(_animator.GetInteger("AnimState"));
