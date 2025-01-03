@@ -21,23 +21,16 @@ namespace Assets.Scripts.Utils
 
         public SpellType Type { get; set; }
 
-        private float lastCastTime = -Mathf.Infinity; // Tracks the last time the spell was cast
+        protected float lastCastTime = -Mathf.Infinity; // Tracks the last time the spell was cast
 
-        public virtual void Cast(Transform caster)
+        public virtual bool Cast()
         {
-            if (CanCast())
-            {
-                lastCastTime = Time.time; // Update the last cast time
-                Debug.Log($"{Name} casted by {caster.name}");
-            }
-            else
-            {
-                float timeLeft = (lastCastTime + CoolDown) - Time.time;
-                Debug.Log($"{Name} is on cooldown. Try again in {timeLeft:F2} seconds.");
-            }
+            lastCastTime = Time.time; // Update the last cast time
+            Debug.Log($"{Name} casted");
+            return true;
         }
 
-        bool CanCast()
+        protected bool CanCast()
         {
             // Check if enough time has passed since the last cast
             return Time.time >= lastCastTime + CoolDown;

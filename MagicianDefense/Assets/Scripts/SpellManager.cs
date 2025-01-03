@@ -3,15 +3,15 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellManager
+public class SpellManager : MonoBehaviour
 {
-    public SpellManager(SpellType initialType)
+    public SpellManager(SpellType initialType, Transform wandTip, GameObject fireballPrefab, float fireballSpeed)
     {
         fireSpells = new List<Spell>
         {
-            new FireBallSpell(),
+            new FireBallSpell(this, wandTip, fireballPrefab, fireballSpeed),
             new FireWallSpell(),
-            new FireZoneSpell()
+            new FireRingSpell()
         };
 
         earthSpells = new List<Spell>();
