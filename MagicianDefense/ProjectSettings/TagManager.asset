@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Terrain
+  - Turret
   layers:
   - Default
   - TransparentFX

@@ -61,7 +61,12 @@ namespace Assets.Scripts.Utils
         private void RegenerateMana()
         {
             currentMana = Mathf.Min(currentMana + manaRegenRate, 500); // Ensure mana doesn't exceed maxMana
-            Debug.Log($"Updated mana {currentMana}\n");
+            //Debug.Log($"Updated mana {currentMana}\n");
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Collision triggered!");
         }
     }
 }
