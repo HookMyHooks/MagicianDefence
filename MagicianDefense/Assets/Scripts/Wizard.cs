@@ -4,13 +4,11 @@ namespace Assets.Scripts.Utils
 {
     public class Wizard : MonoBehaviour
     {
-        private Rigidbody _rigidbody;
-
         [Header("References")]
         public Transform wandTip;           // Child la toiag
         public GameObject fireballPrefab;   // Prefab pentru mingea de foc
         public GameObject fireRingPrefab;
-        public int mana;
+        public int currentMana;
         public int health;
 
         [Header("Fireball Settings")]
@@ -20,11 +18,13 @@ namespace Assets.Scripts.Utils
         public float fireRingDistance = 5f; // Distanța medie față de personaj
         void Start()
         {
-            spellManager = new SpellManager(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance);
+            var spellManagerObject = new GameObject("SpellManager");
+            spellManager = spellManagerObject.AddComponent<SpellManager>();
+
+            spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance);
         }
 
         private SpellManager spellManager;
-
 
         private void Update()
         {
@@ -33,9 +33,9 @@ namespace Assets.Scripts.Utils
             if(key != 0)
             {
                 var spell = spellManager.GetSpell(key);
-                if (mana < spell.Cost) return;
+                if (currentMana < spell.Cost) return;
                 bool hasCasted = spell.Cast(transform);
-                if(hasCasted) mana -= spell.Cost;
+                if(hasCasted) currentMana -= spell.Cost;
             }
         }
 

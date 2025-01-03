@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
-    public SpellManager(SpellType initialType, Transform wandTip, GameObject fireballPrefab, float fireballSpeed, GameObject fireRingPrefab, float fireRingDistance)
+    public void Initialize(SpellType initialType, Transform wandTip, GameObject fireballPrefab, float fireballSpeed, GameObject fireRingPrefab, float fireRingDistance)
     {
         fireSpells = new List<Spell>
         {

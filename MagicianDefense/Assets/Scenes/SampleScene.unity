@@ -2568,7 +2568,7 @@ MonoBehaviour:
   wandTip: {fileID: 234858550}
   fireballPrefab: {fileID: 1631214337}
   fireRingPrefab: {fileID: 2029440564}
-  mana: 500
+  currentMana: 500
   health: 100
   fireballSpeed: 10
   fireRingDistance: 80

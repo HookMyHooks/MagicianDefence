@@ -23,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
             transform.position += transform.forward * _MovementSpeed * Time.deltaTime;
             _animator.SetInteger("AnimState", 1);
             isMoving = true;
-            Debug.Log(_animator.GetInteger("AnimState"));
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
@@ -53,7 +52,5 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetInteger("AnimState", 0);
         }
-        Debug.Log(_animator.GetInteger("AnimState"));
-
     }
 }
