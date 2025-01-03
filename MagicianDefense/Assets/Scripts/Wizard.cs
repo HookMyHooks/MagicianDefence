@@ -80,7 +80,7 @@ namespace Assets.Scripts.Utils
             if (rb != null)
             {
                 // Calculează direcția bazată pe orientarea toiagului (wandTip.forward)
-                Vector3 shootDirection = transform.forward.normalized;
+                Vector3 shootDirection = wandTip.transform.forward.normalized;
 
                 // Aplică mișcare mingii în direcția privirii Wizard-ului
                 rb.linearVelocity = shootDirection * fireballSpeed;
