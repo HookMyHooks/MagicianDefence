@@ -8,8 +8,11 @@ namespace Assets.Scripts.Utils
         public Transform wandTip;           // Child la toiag
         public GameObject fireballPrefab;   // Prefab pentru mingea de foc
         public GameObject fireRingPrefab;
-        public int currentMana;
         public int health;
+
+        [Header("Mana Regeneration")]
+        public int currentMana = 500;          // Current mana capacity
+        public int manaRegenRate = 15;     // Mana regenerated per second
 
         [Header("Fireball Settings")]
         public float fireballSpeed = 1f;
@@ -22,6 +25,8 @@ namespace Assets.Scripts.Utils
             spellManager = spellManagerObject.AddComponent<SpellManager>();
 
             spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance);
+
+            InvokeRepeating(nameof(RegenerateMana), 1f, 1f);
         }
 
         private SpellManager spellManager;
@@ -51,6 +56,12 @@ namespace Assets.Scripts.Utils
                 return (int)KeyCode.E;
 
             return 0;
+        }
+
+        private void RegenerateMana()
+        {
+            currentMana = Mathf.Min(currentMana + manaRegenRate, 500); // Ensure mana doesn't exceed maxMana
+            Debug.Log($"Updated mana {currentMana}\n");
         }
     }
 }
