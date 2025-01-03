@@ -28,13 +28,6 @@ namespace Assets.Scripts.Utils
 
         private void Update()
         {
-            //if (Input.GetKeyDown(KeyCode.Alpha2))
-            //{
-            //    //aici daca apas pe tasta 2 apare FireRing
-            //    SpawnFireRing();
-            //    //spellManager.SelectedCategory = SpellType.Earth;
-            //}
-
             int key = GetCurrentButton();
 
             if(key != 0)
@@ -45,18 +38,6 @@ namespace Assets.Scripts.Utils
                 if(hasCasted) mana -= spell.Cost;
             }
         }
-
-        //private void SpawnFireRing()
-        //{
-        //    Vector3 spawnPosition = transform.position + transform.forward * fireRingDistance;
-        //    spawnPosition.y = transform.position.y; // Menține aceeași înălțime
-
-        //    Quaternion fireRingRotation = Quaternion.Euler(-90, transform.eulerAngles.y, 0);
-
-        //    GameObject fireRing = Instantiate(fireRingPrefab, spawnPosition, fireRingRotation);
-
-        //    Destroy(fireRing, 5f);
-        //}
 
         int GetCurrentButton()
         {
