@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
-    public SpellManager(SpellType initialType, Transform wandTip, GameObject fireballPrefab, float fireballSpeed)
+    public SpellManager(SpellType initialType, Transform wandTip, GameObject fireballPrefab, float fireballSpeed, GameObject fireRingPrefab, float fireRingDistance)
     {
         fireSpells = new List<Spell>
         {
             new FireBallSpell(this, wandTip, fireballPrefab, fireballSpeed),
-            new FireWallSpell(),
-            new FireRingSpell()
+            new FireRingSpell(fireRingPrefab, fireRingDistance),
+            new FireWallSpell()
         };
 
         earthSpells = new List<Spell>();

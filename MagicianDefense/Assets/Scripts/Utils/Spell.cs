@@ -23,7 +23,7 @@ namespace Assets.Scripts.Utils
 
         protected float lastCastTime = -Mathf.Infinity; // Tracks the last time the spell was cast
 
-        public virtual bool Cast()
+        public virtual bool Cast(Transform position)
         {
             lastCastTime = Time.time; // Update the last cast time
             Debug.Log($"{Name} casted");

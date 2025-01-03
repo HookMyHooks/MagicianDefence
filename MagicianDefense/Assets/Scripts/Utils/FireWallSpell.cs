@@ -20,9 +20,9 @@ namespace Assets.Scripts.Utils
             this.CoolDown = 20;
         }
 
-        public override bool Cast()
+        public override bool Cast(Transform transform)
         {
-            base.Cast();
+            base.Cast(transform);
 
             Debug.Log($"{Name} casted.");
 

@@ -23,12 +23,12 @@ namespace Assets.Scripts.Utils
             this.Damage = 10;
             this.CoolDown = 2;
         }
-        public override bool Cast()
+        public override bool Cast(Transform position)
         {
             // Check if the spell is ready to be cast
             if (CanCast())
             {
-                base.Cast(); // Updates the lastCastTime in the base class
+                base.Cast(position); // Updates the lastCastTime in the base class
                 Debug.Log($"{Name} casted.");
                 ShootFireball(); // Only call ShootFireball if the cooldown has expired
                 return true;
