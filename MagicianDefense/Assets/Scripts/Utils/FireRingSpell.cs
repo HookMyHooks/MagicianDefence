@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Utils
 {
@@ -15,13 +10,11 @@ namespace Assets.Scripts.Utils
         private float fireRingDistance;
         public float Radius { get; set; }
 
-        public FireRingSpell() 
+        public FireRingSpell(GameObject fireRingPrefab, float fireRingDistance) 
         {
-            //this.monoBehaviour = monoBehaviour;
-            //this.wandTip = wandTip;
-            //this.fireRingPrefab = fireRingPrefab;
-            //this.fireRingDistance = fireRingDistance;
-            this.Name = "FireZone";
+            this.fireRingPrefab = fireRingPrefab;
+            this.fireRingDistance = fireRingDistance;
+            this.Name = "FireRing";
             this.Type = SpellType.Fire;
             this.Cost = 200;
             this.CoolDown = 15;
@@ -29,23 +22,34 @@ namespace Assets.Scripts.Utils
             this.Radius = 1f;
         }
 
-        public override bool Cast()
+        public override bool Cast(Transform position)
         {
-            base.Cast();
-            Debug.Log($"{Name} casted.");
-            return true;
+            // Check if the spell is ready to be cast
+            if (CanCast())
+            {
+                base.Cast(position); // Updates the lastCastTime in the base class
+                Debug.Log($"{Name} casted.");
+                SpawnFireRing(position); // Only call ShootFireball if the cooldown has expired
+                return true;
+            }
+            else
+            {
+                float timeLeft = (lastCastTime + CoolDown) - Time.time;
+                Debug.Log($"{Name} is on cooldown. Try again in {timeLeft:F2} seconds.");
+                return false;
+            }
         }
 
-        //private void SpawnFireRing()
-        //{
-        //    Vector3 spawnPosition = transform.position + transform.forward * fireRingDistance;
-        //    spawnPosition.y = transform.position.y; // Menține aceeași înălțime
+        private void SpawnFireRing(Transform transform)
+        {
+            Vector3 spawnPosition = transform.position + transform.forward * fireRingDistance;
+            spawnPosition.y = transform.position.y; // Menține aceeași înălțime
 
-        //    Quaternion fireRingRotation = Quaternion.Euler(-90, transform.eulerAngles.y, 0);
+            Quaternion fireRingRotation = Quaternion.Euler(-90, transform.eulerAngles.y, 0);
 
-        //    GameObject fireRing = GameObject.Instantiate(fireRingPrefab, spawnPosition, fireRingRotation);
+            GameObject fireRing = GameObject.Instantiate(fireRingPrefab, spawnPosition, fireRingRotation);
 
-        //    GameObject.Destroy(fireRing, 5f);
-        //}
+            GameObject.Destroy(fireRing, 5f);
+        }
     }
 }

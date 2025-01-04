@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Utils
 {
@@ -20,9 +14,9 @@ namespace Assets.Scripts.Utils
             this.CoolDown = 20;
         }
 
-        public override bool Cast()
+        public override bool Cast(Transform transform)
         {
-            base.Cast();
+            base.Cast(transform);
 
             Debug.Log($"{Name} casted.");
 

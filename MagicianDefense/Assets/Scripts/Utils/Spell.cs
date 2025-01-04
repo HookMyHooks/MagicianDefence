@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Utils
 {
@@ -23,7 +18,7 @@ namespace Assets.Scripts.Utils
 
         protected float lastCastTime = -Mathf.Infinity; // Tracks the last time the spell was cast
 
-        public virtual bool Cast()
+        public virtual bool Cast(Transform position)
         {
             lastCastTime = Time.time; // Update the last cast time
             Debug.Log($"{Name} casted");
