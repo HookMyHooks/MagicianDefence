@@ -58,6 +58,16 @@ namespace Assets.Scripts.Utils
             return 0;
         }
 
+        public void TakeDamage(int value)
+        {
+            health -= value;
+
+            if (health == 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         private void RegenerateMana()
         {
             currentMana = Mathf.Min(currentMana + manaRegenRate, 500); // Ensure mana doesn't exceed maxMana
@@ -66,7 +76,7 @@ namespace Assets.Scripts.Utils
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Collision triggered!");
+            Debug.Log($"Wizzard collision triggered with: {other.gameObject.ToString()}");
         }
     }
 }
