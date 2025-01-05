@@ -4,7 +4,7 @@ namespace Assets.Scripts.Utils
 {
     public class FireRingSpell : Spell
     {
-        private MonoBehaviour monoBehaviour; // Reference to MonoBehaviour
+        //private MonoBehaviour monoBehaviour; // Reference to MonoBehaviour
         private Transform wandTip;
         private GameObject fireRingPrefab;
         private float fireRingDistance;

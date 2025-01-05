@@ -27,7 +27,7 @@ namespace Assets.Scripts.Utils
             var spellManagerObject = new GameObject("SpellManager");
             spellManager = spellManagerObject.AddComponent<SpellManager>();
 
-            spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance);
+            spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance, fireWallPrefab);
 
             InvokeRepeating(nameof(RegenerateMana), 1f, 1f);
         }
@@ -56,25 +56,7 @@ namespace Assets.Scripts.Utils
                 return (int)KeyCode.W;
 
             if (Input.GetKeyDown(KeyCode.E))
-            {
-
-                // Calculează poziția FireWall-ului
-                Vector3 spawnPosition = transform.position + transform.forward * 10f; // Poziționează FireWall-ul în fața personajului
-
-                spawnPosition.y = transform.position.y + 20f; // Adaugă 2 unități pe axa Y (ajustează valoarea după nevoie)
-
-                // Instanțiază FireWall-ul
-                GameObject fireWall = Instantiate(fireWallPrefab, spawnPosition, Quaternion.identity);
-
-                // Aliniază rotația
-                fireWall.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-
-                // Distruge FireWall-ul după 5 secunde
-                Destroy(fireWall, 5f);
-
-
-            }
-
+                return (int)KeyCode.E;
 
             return 0;
         }
