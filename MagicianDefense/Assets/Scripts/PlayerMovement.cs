@@ -1,3 +1,4 @@
+using Assets.Scripts.Utils;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -32,13 +33,14 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.eulerAngles += Vector3.down * _RotationSpeed * Time.deltaTime;
+            //transform.eulerAngles += Vector3.down * _RotationSpeed * Time.deltaTime;
+            transform.Translate(Vector3.left * _MovementSpeed * Time.deltaTime);
             _animator.SetInteger("AnimState", 3);
             isMoving = true;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.eulerAngles += Vector3.up * _RotationSpeed * Time.deltaTime;
+            transform.Translate(Vector3.right * _MovementSpeed * Time.deltaTime);
             _animator.SetInteger("AnimState", 4);
             isMoving = true;
         }

@@ -690,6 +690,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99a48108c5a1932488c06e519f6097f4, type: 3}
+--- !u!1 &135176373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 135176375}
+  - component: {fileID: 135176374}
+  m_Layer: 0
+  m_Name: SpawnPoint1 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &135176374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135176373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf52192907830542a8b3ab5291b9b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minionPrefab: {fileID: 7117085679655175742, guid: 13522d5829f583d4d88043c6eb430c03, type: 3}
+  spawnInterval: 2
+  maxMinions: 1
+--- !u!4 &135176375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135176373}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.23613046, y: 0.6665152, z: 0.6665152, w: 0.23613045}
+  m_LocalPosition: {x: -1162.8, y: 14, z: 684.61}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 180, z: -39.01599}
 --- !u!1 &234858549
 GameObject:
   m_ObjectHideFlags: 0
@@ -9525,6 +9572,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 409628, guid: 702740a5e4ac1ee40a1888d3b62faa91, type: 3}
   m_PrefabInstance: {fileID: 1603535636}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1421497715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1421497717}
+  - component: {fileID: 1421497716}
+  m_Layer: 0
+  m_Name: SpawnPoint1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1421497716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421497715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf52192907830542a8b3ab5291b9b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minionPrefab: {fileID: 7117085679655175742, guid: 13522d5829f583d4d88043c6eb430c03, type: 3}
+  spawnInterval: 2
+  maxMinions: 1
+--- !u!4 &1421497717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421497715}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.20487936, y: 0.6767751, z: 0.67677504, w: -0.2048793}
+  m_LocalPosition: {x: 1327, y: 14, z: 779.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 180, z: 33.684998}
 --- !u!1001 &1423233266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16412,7 +16506,7 @@ Transform:
   m_GameObject: {fileID: 2056109763}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -24.981617, y: 3.72, z: 1305.5414}
+  m_LocalPosition: {x: -24.981617, y: 14.15, z: 1305.5414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16450,6 +16544,8 @@ SceneRoots:
   - {fileID: 1093715806}
   - {fileID: 810660841}
   - {fileID: 2056109765}
+  - {fileID: 1421497717}
+  - {fileID: 135176375}
   - {fileID: 767951880}
   - {fileID: 1770106614}
   - {fileID: 2029440567}
