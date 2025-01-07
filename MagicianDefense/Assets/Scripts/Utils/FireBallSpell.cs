@@ -48,20 +48,9 @@ namespace Assets.Scripts.Utils
 
             // Adaugă mișcare folosind Rigidbody
             Rigidbody rb = fireball.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                // Calculează direcția bazată pe orientarea toiagului (wandTip.forward)
-                Vector3 shootDirection = wandTip.transform.forward.normalized;
-
-                // Aplică mișcare mingii în direcția privirii Wizard-ului
-                rb.linearVelocity = shootDirection * fireballSpeed;
-
-                // Aplică viteza mingii
-                rb.linearVelocity = shootDirection * fireballSpeed;
-            }
-
-            // Distruge mingea după 5 secunde
-            GameObject.Destroy(fireball, 5f);
+         
+           // GameObject.Destroy(fireball, 5f);
         }
+
     }
 }

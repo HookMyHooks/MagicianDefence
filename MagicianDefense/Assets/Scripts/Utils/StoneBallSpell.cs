@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Utils
 {
@@ -59,13 +59,15 @@ namespace Assets.Scripts.Utils
             rb.interpolation = RigidbodyInterpolation.Interpolate;
 
             // Calculeaz? direc?ia de aruncare
-            Vector3 shootDirection = wandTip.transform.forward.normalized;
+          Vector3 shootDirection = wandTip.forward;
+          shootDirection.y = 0;
+          shootDirection.x = 0;
 
             // Aplic? for?? pentru a arunca mingea
-            rb.linearVelocity = shootDirection * stoneBallSpeed;
+           rb.linearVelocity = shootDirection * stoneBallSpeed;
 
             // Distruge mingea dup? 5 secunde pentru optimizare
-            GameObject.Destroy(stoneBall, 5f);
+          //  GameObject.Destroy(stoneBall, 5f);
         }
     }
 }
