@@ -228,6 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   detectionRange: 20
+  damagePerSecond: 10
 --- !u!95 &4859817142992927126
 Animator:
   serializedVersion: 7

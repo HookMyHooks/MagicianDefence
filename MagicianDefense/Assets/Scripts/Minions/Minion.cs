@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Minion : MonoBehaviour
@@ -8,7 +10,6 @@ public class Minion : MonoBehaviour
     private bool canMove = true;
 
     private GameObject toFollow; // Object that the minion will follow
-    private GameObject[] turrets; // List of all turrets in the scene
 
     private Animator _animator;
     private bool isInHittingRange = false;
@@ -17,8 +18,6 @@ public class Minion : MonoBehaviour
 
     private void Start()
     {
-        // Find all objects tagged as "Turret" in the scene
-        turrets = GameObject.FindGameObjectsWithTag("Turret");
 
         // Find the nearest turret at the start
         toFollow = FindNearestTurret();
@@ -44,12 +43,12 @@ public class Minion : MonoBehaviour
             _animator.SetBool("isHitting", true);
         }
 
-        if (other.CompareTag("PlayerHittingRange"))
-        {
-            canMove = false;
-            isInHittingRange = true;
-            _animator.SetBool("isHitting", true);
-        }
+        //if (other.CompareTag("PlayerHittingRange"))
+        //{
+        //    canMove = false;
+        //    isInHittingRange = true;
+        //    _animator.SetBool("isHitting", true);
+        //}
     }
 
     private void OnTriggerExit(Collider other)
@@ -61,33 +60,19 @@ public class Minion : MonoBehaviour
             Debug.Log("Player exited detection range. Returning to nearest turret.");
         }
 
-        if (other.CompareTag("TurretHittingRange") || other.CompareTag("PlayerHittingRange"))
+        if (other.CompareTag("TurretHittingRange") /*|| other.CompareTag("PlayerHittingRange")*/)
         {
             canMove = true;
             isInHittingRange = false;
             _animator.SetBool("isHitting", false);
+            Debug.Log("Minion exited turret hitting range");
         }
     }
 
     private void Update()
     {
-        // Check if the current target (toFollow) is null
-        if (toFollow == null)
-        {
-            Debug.Log("Current target destroyed. Finding a new target...");
-            toFollow = FindNearestTurret(); // Reassign to the nearest turret
-
-            if (toFollow == null)
-            {
-                // No turrets left to follow, reset state
-                canMove = false;
-                _animator.SetBool("isHitting", false); // Stop hitting animation
-                Debug.Log("No targets to follow. Minion is idle.");
-                return;
-            }
-
-            canMove = true; // Allow movement if a new target is found
-        }
+        // Make the minion look at the target
+        LookAtTarget();
 
         // Follow the current target if movement is allowed
         if (canMove)
@@ -102,13 +87,76 @@ public class Minion : MonoBehaviour
         }
     }
 
+
+    private void OnEnable()
+    {
+        Health.TurretDestroyed += OnTargetDestroyed;
+    }
+
+    private void OnDisable()
+    {
+        Health.TurretDestroyed -= OnTargetDestroyed;
+    }
+
+    private void OnTargetDestroyed(GameObject destroyedObject)
+    {
+        if (toFollow == destroyedObject)
+        {
+            Debug.Log("Target destroyed. Finding a new target...");
+            StartCoroutine(DelayFindNearestTurret());
+        }
+    }
+
+    private IEnumerator DelayFindNearestTurret()
+    {
+        yield return null; // Wait for one frame to ensure UnregisterTurret is processed
+
+        toFollow = FindNearestTurret();
+
+        if (toFollow == null)
+        {
+            // Reset state if no targets remain
+            canMove = false;
+            isInHittingRange = false;
+            _animator.SetBool("isHitting", false);
+            Debug.Log("No targets to follow. Minion is idle.");
+        }
+        else
+        {
+            isInHittingRange = false;
+            _animator.SetBool("isHitting", false);
+            canMove = true;
+        }
+    }
+
+    private void LookAtTarget()
+    {
+        if (toFollow != null)
+        {
+            // Get the direction to the target
+            Vector3 direction = (toFollow.transform.position - transform.position).normalized;
+
+            // Create a rotation that looks at the target, preserving the minion's vertical axis
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+
+            // Apply an offset to the rotation (adjust based on your model's forward axis)
+            Quaternion adjustedRotation = lookRotation * Quaternion.Euler(-90, 0, 0); // Example offset
+
+            // Smoothly rotate towards the target
+            transform.rotation = Quaternion.Slerp(transform.rotation, adjustedRotation, Time.deltaTime * 5f);
+        }
+    }
+
+
     private void DealDamageOverTime()
     {
         if (toFollow == null)
         {
             Debug.Log("Target destroyed during hitting. Resetting state.");
+            toFollow = FindNearestTurret();
             isInHittingRange = false;
             _animator.SetBool("isHitting", false); // Stop hitting animation
+            canMove = true;
             return;
         }
 
@@ -137,15 +185,27 @@ public class Minion : MonoBehaviour
     // Method to find the nearest turret
     private GameObject FindNearestTurret()
     {
+        List<GameObject> turrets = TurretManager.Instance.GetActiveTurrets();
+
+        Debug.Log("Active Turrets Count: " + turrets.Count);
+
+        foreach (GameObject turret in turrets)
+        {
+            //Debug.Log(turret.name);
+            if (turret == null)
+            {
+                Debug.LogWarning("Found a null turret in the list!");
+            }
+        }
+
         GameObject nearestTurret = null;
         float closestDistance = Mathf.Infinity;
 
         foreach (GameObject turret in turrets)
         {
-            // Calculate the distance between the minion and the turret
-            float distance = Vector3.Distance(transform.position, turret.transform.position);
+            if (turret == null) continue; // Skip null turrets
 
-            // Check if this turret is closer than the current nearest turret
+            float distance = Vector3.Distance(transform.position, turret.transform.position);
             if (distance < closestDistance)
             {
                 closestDistance = distance;
@@ -164,6 +224,7 @@ public class Minion : MonoBehaviour
 
         return nearestTurret;
     }
+
 
     // Method to handle taking damage
     public void TakeDamage(int amount)
