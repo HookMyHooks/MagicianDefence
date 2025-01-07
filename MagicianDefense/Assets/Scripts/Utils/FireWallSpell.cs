@@ -40,18 +40,22 @@ namespace Assets.Scripts.Utils
         private void SpawnFirewall(Transform transform)
         {
             // Calculează poziția FireWall-ului
-            Vector3 spawnPosition = transform.position + transform.forward * 10f; // Poziționează FireWall-ul în fața personajului
+            Vector3 spawnPosition = transform.position + transform.forward * 100f; // Poziționează FireWall-ul în fața personajului
 
-            spawnPosition.y = transform.position.y + 20f; // Adaugă 2 unități pe axa Y (ajustează valoarea după nevoie)
-           
+            spawnPosition.y = transform.position.y+20f; // Adaugă 2 unități pe axa Y (ajustează valoarea după nevoie)
+
+            Quaternion fireWallRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+
             // Instanțiază FireWall-ul
-            GameObject fireWall = GameObject.Instantiate(fireWallPrefab, spawnPosition, Quaternion.identity);
+         //   GameObject fireWall = GameObject.Instantiate(fireWallPrefab, spawnPosition, Quaternion.identity);
 
+
+            GameObject fireWall = GameObject.Instantiate(fireWallPrefab, spawnPosition, fireWallRotation);
             // Aliniază rotația
             fireWall.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
 
             // Distruge FireWall-ul după 5 secunde
-            GameObject.Destroy(fireWall, 5f);
+          //  GameObject.Destroy(fireWall, 5f);
         }
     }
 }
