@@ -30,7 +30,7 @@ namespace Assets.Scripts.Utils
             {
                 base.Cast(position); // Updates the lastCastTime in the base class
                 Debug.Log($"{Name} casted.");
-                ShootFireball(); // Only call ShootFireball if the cooldown has expired
+                ShootFireball(position); // Only call ShootFireball if the cooldown has expired
                 return true;
             }
             else
@@ -41,16 +41,34 @@ namespace Assets.Scripts.Utils
             }
         }
 
-        private void ShootFireball()
-        {
-            // Instanțiază mingea de foc la poziția și rotația toiagului
-            GameObject fireball = GameObject.Instantiate(fireballPrefab, wandTip.position, wandTip.rotation);
+       private void ShootFireball(Transform magicianTransform)
+{
+    // Instanțiază mingea de foc la poziția și rotația toiagului
+    GameObject fireball = GameObject.Instantiate(fireballPrefab, wandTip.position, wandTip.rotation);
 
-            // Adaugă mișcare folosind Rigidbody
-            Rigidbody rb = fireball.GetComponent<Rigidbody>();
-         
-           // GameObject.Destroy(fireball, 5f);
-        }
+    // Adaugă Rigidbody dacă nu există deja
+    Rigidbody rb = fireball.GetComponent<Rigidbody>();
+    if (rb == null)
+    {
+        rb = fireball.AddComponent<Rigidbody>();
+    }
+
+    // Setează proprietățile Rigidbody
+    rb.useGravity = true; // Mingea de foc va fi influențată de gravitație
+    rb.mass = 1f;         // Ajustează masa pentru a simula greutatea
+    rb.interpolation = RigidbodyInterpolation.Interpolate;
+
+    // Calculează direcția bazată pe rotația magicianului
+    Vector3 shootDirection = magicianTransform.forward;
+
+    // Aplică forță pentru aruncarea mingii
+    rb.AddForce(shootDirection * fireballSpeed, ForceMode.Impulse);
+
+    // Distruge mingea după 5 secunde pentru optimizare
+    GameObject.Destroy(fireball, 5f);
+}
+
+
 
     }
 }

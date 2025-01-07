@@ -4,8 +4,8 @@ namespace Assets.Scripts.Utils
 {
     public class StoneBallSpell : Spell
     {
-        private MonoBehaviour monoBehaviour; // Referin?? la MonoBehaviour pentru a folosi corutine (dac? e necesar)
-        private Transform wandTip;           // Pozi?ia de lansare
+        private MonoBehaviour monoBehaviour; // Referință la MonoBehaviour pentru a folosi corutine (dacă e necesar)
+        private Transform wandTip;           // Poziția de lansare
         private GameObject stoneBallPrefab;  // Prefab-ul pentru StoneBall
         private float stoneBallSpeed;        // Viteza de aruncare
 
@@ -23,14 +23,14 @@ namespace Assets.Scripts.Utils
             this.CoolDown = 3;
         }
 
-        public override bool Cast(Transform position)
+        public override bool Cast(Transform magicianTransform)
         {
-            // Verific? dac? vraja poate fi lansat?
+            // Verifică dacă vraja poate fi lansată
             if (CanCast())
             {
-                base.Cast(position); // Actualizeaz? timpul ultimei lans?ri
+                base.Cast(magicianTransform); // Actualizează timpul ultimei lansări
                 Debug.Log($"{Name} casted.");
-                ShootStoneBall();
+                ShootStoneBall(magicianTransform);
                 return true;
             }
             else
@@ -41,33 +41,32 @@ namespace Assets.Scripts.Utils
             }
         }
 
-        private void ShootStoneBall()
+        private void ShootStoneBall(Transform magicianTransform)
         {
-            // Instan?iaz? mingea de piatr? la pozi?ia toiagului
+            // Instanțiază mingea de piatră la poziția toiagului
             GameObject stoneBall = GameObject.Instantiate(stoneBallPrefab, wandTip.position, wandTip.rotation);
 
-            // Adaug? Rigidbody dac? nu exist? deja
+            // Adaugă Rigidbody dacă nu există deja
             Rigidbody rb = stoneBall.GetComponent<Rigidbody>();
             if (rb == null)
             {
                 rb = stoneBall.AddComponent<Rigidbody>();
             }
 
-            // Seteaz? propriet??ile Rigidbody
-            rb.useGravity = true; // Mingea de piatr? cade dup? ce este aruncat?
-            rb.mass = 2f;         // Ajusteaz? masa pentru a simula greutatea
+            // Setează proprietățile Rigidbody
+            rb.useGravity = true; // Mingea de piatră cade după ce este aruncată
+            rb.mass = 1f;         // Ajustează masa pentru a simula greutatea
             rb.interpolation = RigidbodyInterpolation.Interpolate;
 
-            // Calculeaz? direc?ia de aruncare
-          Vector3 shootDirection = wandTip.forward;
-          shootDirection.y = 0;
-          shootDirection.x = 0;
+            // Calculează direcția bazată pe rotația magicianului
+            Vector3 shootDirection = magicianTransform.forward;
+            rb.AddForce(shootDirection * stoneBallSpeed, ForceMode.Impulse);
 
-            // Aplic? for?? pentru a arunca mingea
-           rb.linearVelocity = shootDirection * stoneBallSpeed;
+            // Aplică mișcare mingii în direcția privirii magicianului
+            rb.linearVelocity = shootDirection * stoneBallSpeed;
 
-            // Distruge mingea dup? 5 secunde pentru optimizare
-          //  GameObject.Destroy(stoneBall, 5f);
+            // Distruge mingea după 5 secunde pentru optimizare
+            GameObject.Destroy(stoneBall, 5f);
         }
     }
 }

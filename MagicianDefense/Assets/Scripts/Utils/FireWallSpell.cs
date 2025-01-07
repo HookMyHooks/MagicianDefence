@@ -55,7 +55,7 @@ namespace Assets.Scripts.Utils
             fireWall.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
 
             // Distruge FireWall-ul după 5 secunde
-          //  GameObject.Destroy(fireWall, 5f);
+            GameObject.Destroy(fireWall, 5f);
         }
     }
 }

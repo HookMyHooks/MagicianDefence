@@ -26,7 +26,7 @@ namespace Assets.Scripts.Utils
 
         [Header("Stone Ball Settings")]
         public GameObject stoneBallPrefab;  // Prefab pentru mingea de piatră
-        public float stoneBallSpeed = 15f;
+        public float stoneBallSpeed = 20f;
 
 
         void Start()
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Utils
                 bool hasCasted = spell.Cast(transform);
                 if(hasCasted) currentMana -= spell.Cost;
             }
-
+    
         }
 
 
