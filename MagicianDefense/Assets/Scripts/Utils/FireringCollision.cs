@@ -16,13 +16,7 @@ public class FireringCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Turret"))
-        {
-            Turret turret = GameObject.FindAnyObjectByType<Turret>();
-            // Apply damage to the turret
-            turret.TakeDamage(damage);
-        }
-
+        
         if(collision.CompareTag("Minion"))
         {
             Minion enemyMinion = GameObject.FindAnyObjectByType<Minion>();
@@ -64,19 +58,6 @@ public class FireringCollision : MonoBehaviour
 
     private void OnTriggerStay(Collider collision)
     {
-        if (collision.CompareTag("Turret"))
-        {
-            turretDamageTimer += Time.deltaTime;
-            if (turretDamageTimer >= damageInterval)
-            {
-                Turret turret = collision.GetComponent<Turret>();
-                if (turret != null)
-                {
-                    turret.TakeDamage(damage);
-                }
-                turretDamageTimer = 0f; // Reset the timer
-            }
-        }
 
         if (collision.CompareTag("Minion"))
         {

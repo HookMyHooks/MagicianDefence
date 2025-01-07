@@ -11,6 +11,9 @@ public class Minion : MonoBehaviour
     private GameObject[] turrets; // List of all turrets in the scene
 
     private Animator _animator;
+    private bool isInHittingRange = false;
+    public int damagePerSecond = 10; // Damage dealt per second
+    private float damageTimer = 0f;
 
     private void Start()
     {
@@ -20,7 +23,7 @@ public class Minion : MonoBehaviour
         // Find the nearest turret at the start
         toFollow = FindNearestTurret();
 
-        _animator = GetComponent<Animator>();   
+        _animator = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,19 +37,19 @@ public class Minion : MonoBehaviour
             _animator.SetBool("isHitting", false);
         }
 
-        if(other.CompareTag("TurretHittingRange"))
+        if (other.CompareTag("TurretHittingRange"))
         {
             canMove = false;
-            _animator.SetBool("isHitting", true);
-        }
-        
-        if(other.CompareTag("PlayerHittingRange"))
-        {
-            canMove = false;
+            isInHittingRange = true;
             _animator.SetBool("isHitting", true);
         }
 
-
+        if (other.CompareTag("PlayerHittingRange"))
+        {
+            canMove = false;
+            isInHittingRange = true;
+            _animator.SetBool("isHitting", true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -58,12 +61,78 @@ public class Minion : MonoBehaviour
             Debug.Log("Player exited detection range. Returning to nearest turret.");
         }
 
-        if (other.CompareTag("TurretHittingRange"))
+        if (other.CompareTag("TurretHittingRange") || other.CompareTag("PlayerHittingRange"))
         {
             canMove = true;
+            isInHittingRange = false;
             _animator.SetBool("isHitting", false);
         }
     }
+
+    private void Update()
+    {
+        // Check if the current target (toFollow) is null
+        if (toFollow == null)
+        {
+            Debug.Log("Current target destroyed. Finding a new target...");
+            toFollow = FindNearestTurret(); // Reassign to the nearest turret
+
+            if (toFollow == null)
+            {
+                // No turrets left to follow, reset state
+                canMove = false;
+                _animator.SetBool("isHitting", false); // Stop hitting animation
+                Debug.Log("No targets to follow. Minion is idle.");
+                return;
+            }
+
+            canMove = true; // Allow movement if a new target is found
+        }
+
+        // Follow the current target if movement is allowed
+        if (canMove)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, toFollow.transform.position, Time.deltaTime * 30f);
+        }
+
+        // Deal damage if in hitting range
+        if (isInHittingRange)
+        {
+            DealDamageOverTime();
+        }
+    }
+
+    private void DealDamageOverTime()
+    {
+        if (toFollow == null)
+        {
+            Debug.Log("Target destroyed during hitting. Resetting state.");
+            isInHittingRange = false;
+            _animator.SetBool("isHitting", false); // Stop hitting animation
+            return;
+        }
+
+        damageTimer += Time.deltaTime;
+
+        // Apply damage once per second
+        if (damageTimer >= 1f)
+        {
+            damageTimer = 0f; // Reset the timer
+
+            // Check if the object being followed has a health system
+            Health targetHealth = toFollow.GetComponent<Health>();
+            if (targetHealth != null)
+            {
+                targetHealth.TakeDamage(damagePerSecond);
+                Debug.Log($"Minion dealt {damagePerSecond} damage to {toFollow.name}");
+            }
+            else
+            {
+                Debug.LogWarning($"{toFollow.name} does not have a Health component!");
+            }
+        }
+    }
+
 
     // Method to find the nearest turret
     private GameObject FindNearestTurret()
@@ -94,16 +163,6 @@ public class Minion : MonoBehaviour
         }
 
         return nearestTurret;
-    }
-
-    private void Update()
-    {
-        // Follow the current target (if one exists)
-        if (toFollow != null && canMove)
-        {
-            // Move towards the target (optional: add smoothing)
-            transform.position = Vector3.MoveTowards(transform.position, toFollow.transform.position, Time.deltaTime * 30f);
-        }
     }
 
     // Method to handle taking damage

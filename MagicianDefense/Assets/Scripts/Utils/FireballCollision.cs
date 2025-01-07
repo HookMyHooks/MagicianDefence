@@ -8,16 +8,7 @@ public class FireballCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Turret"))
-        {
-            Turret turret = GameObject.FindAnyObjectByType<Turret>();
-            // Apply damage to the turret
-            turret.TakeDamage(damage);
-
-            // Optionally destroy the fireball on impact
-            Destroy(gameObject);
-        }
-
+      
         // Check if the object hit has the "Turret" component
         //Turret turret = collision.gameObject.GetComponent<Turret>();
         
