@@ -19,6 +19,8 @@ public class SpellManager : MonoBehaviour
         SelectedCategory = initialType;
 
         isInitialized = true;
+
+        Debug.Log("SpellManager initialized");
     }
 
     public SpellType SelectedCategory
