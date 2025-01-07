@@ -27,7 +27,10 @@ namespace Assets.Scripts.Utils
             var spellManagerObject = new GameObject("SpellManager");
             spellManager = spellManagerObject.AddComponent<SpellManager>();
 
-            spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance, fireWallPrefab);
+            if (!spellManager.isInitialized)
+            {
+                spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance, fireWallPrefab);
+            }
 
             InvokeRepeating(nameof(RegenerateMana), 1f, 1f);
         }

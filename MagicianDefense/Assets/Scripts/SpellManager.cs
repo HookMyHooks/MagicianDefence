@@ -17,6 +17,8 @@ public class SpellManager : MonoBehaviour
         earthSpells = new List<Spell>();
 
         SelectedCategory = initialType;
+
+        isInitialized = true;
     }
 
     public SpellType SelectedCategory
@@ -45,6 +47,8 @@ public class SpellManager : MonoBehaviour
 
     private List<Spell> earthSpells;
 
+    public bool isInitialized = false;
+
     public Spell GetSpell(int key)
     {
         if ( (int)KeyCode.Q == key ) 
@@ -57,5 +61,10 @@ public class SpellManager : MonoBehaviour
             return availableSpells[2];
 
         return null;
+    }
+
+    public List<Spell> GetSpells() 
+    { 
+        return availableSpells; 
     }
 }
