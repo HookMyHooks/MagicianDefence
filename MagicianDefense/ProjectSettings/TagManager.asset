@@ -9,6 +9,7 @@ TagManager:
   - Trees
   - Minion
   - PlayerDetection
+  - TurretHittingRange
   layers:
   - Default
   - TransparentFX

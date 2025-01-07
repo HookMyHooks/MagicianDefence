@@ -37,8 +37,16 @@ public class Minion : MonoBehaviour
         if(other.CompareTag("TurretHittingRange"))
         {
             canMove = false;
-            _animator.SetBool("IsHitting", true);
+            _animator.SetBool("isHitting", true);
         }
+        
+        if(other.CompareTag("PlayerHittingRange"))
+        {
+            canMove = false;
+            _animator.SetBool("isHitting", true);
+        }
+
+
     }
 
     private void OnTriggerExit(Collider other)
