@@ -22,6 +22,13 @@ namespace Assets.Scripts.Utils
 
         [Header("Fire Ring Settings")]
         public float fireRingDistance = 5f; // Distanța medie față de personaj
+
+
+        [Header("Stone Ball Settings")]
+        public GameObject stoneBallPrefab;  // Prefab pentru mingea de piatră
+        public float stoneBallSpeed = 15f;
+
+
         void Start()
         {
             var spellManagerObject = new GameObject("SpellManager");
@@ -29,7 +36,7 @@ namespace Assets.Scripts.Utils
 
             if (!spellManager.isInitialized)
             {
-                spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance, fireWallPrefab);
+                spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance, fireWallPrefab, stoneBallPrefab, stoneBallSpeed);
             }
 
             InvokeRepeating(nameof(RegenerateMana), 1f, 1f);
@@ -48,7 +55,9 @@ namespace Assets.Scripts.Utils
                 bool hasCasted = spell.Cast(transform);
                 if(hasCasted) currentMana -= spell.Cost;
             }
+
         }
+
 
         int GetCurrentButton()
         {
@@ -61,6 +70,8 @@ namespace Assets.Scripts.Utils
             if (Input.GetKeyDown(KeyCode.E))
                 return (int)KeyCode.E;
 
+            if (Input.GetKeyDown(KeyCode.R))
+                return (int)KeyCode.R;
             return 0;
         }
 

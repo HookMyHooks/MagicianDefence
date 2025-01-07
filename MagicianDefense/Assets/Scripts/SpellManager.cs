@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
-    public void Initialize(SpellType initialType, Transform wandTip, GameObject fireballPrefab, float fireballSpeed, GameObject fireRingPrefab, float fireRingDistance, GameObject fireWallPrefab)
+    public void Initialize(SpellType initialType, Transform wandTip, GameObject fireballPrefab, float fireballSpeed, GameObject fireRingPrefab, float fireRingDistance, GameObject fireWallPrefab, GameObject stoneBallPrefab, float stoneBallSpeed)
     {
         fireSpells = new List<Spell>
         {
             new FireBallSpell(this, wandTip, fireballPrefab, fireballSpeed),
             new FireRingSpell(fireRingPrefab, fireRingDistance),
-            new FireWallSpell(fireWallPrefab)
+            new FireWallSpell(fireWallPrefab),
+            new StoneBallSpell(this, wandTip, stoneBallPrefab, stoneBallSpeed)
         };
 
         earthSpells = new List<Spell>();
@@ -61,6 +62,9 @@ public class SpellManager : MonoBehaviour
 
         if ((int)KeyCode.E == key)
             return availableSpells[2];
+
+        if ((int)KeyCode.R == key) 
+            return availableSpells[3];
 
         return null;
     }
