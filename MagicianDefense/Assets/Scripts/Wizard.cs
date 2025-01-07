@@ -28,6 +28,8 @@ namespace Assets.Scripts.Utils
         public GameObject stoneBallPrefab;  // Prefab pentru mingea de piatră
         public float stoneBallSpeed = 20f;
 
+        [Header("Stone Wall Settings")]
+        public GameObject stoneWallPrefab;
 
         void Start()
         {
@@ -36,7 +38,7 @@ namespace Assets.Scripts.Utils
 
             if (!spellManager.isInitialized)
             {
-                spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance, fireWallPrefab, stoneBallPrefab, stoneBallSpeed);
+                spellManager.Initialize(SpellType.Fire, wandTip, fireballPrefab, fireballSpeed, fireRingPrefab, fireRingDistance, fireWallPrefab, stoneBallPrefab, stoneBallSpeed, stoneWallPrefab);
             }
 
             InvokeRepeating(nameof(RegenerateMana), 1f, 1f);
@@ -72,6 +74,9 @@ namespace Assets.Scripts.Utils
 
             if (Input.GetKeyDown(KeyCode.R))
                 return (int)KeyCode.R;
+
+            if (Input.GetKeyDown(KeyCode.T))
+                return (int)KeyCode.T;
             return 0;
         }
 
