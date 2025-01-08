@@ -827,8 +827,8 @@ MonoBehaviour:
   - {fileID: 2114936337}
   - {fileID: 525426340}
   spellCoolDownManager: {fileID: 2069410786}
-  healthSlider: {fileID: 0}
-  manaSlider: {fileID: 0}
+  healthSlider: {fileID: 462262376}
+  manaSlider: {fileID: 1226305423}
 --- !u!4 &83656215
 Transform:
   m_ObjectHideFlags: 0

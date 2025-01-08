@@ -23,6 +23,8 @@ public class HUDManager : MonoBehaviour
 
         var availableSpells = spellManager.GetSpells();
         Debug.Log(availableSpells.Count);
+        Debug.Log("spell manager null" + spellManager == null);
+        Debug.Log("wizard null" + wizard == null);
 
         float timeSinceCast = 0;
         float remainingCooldown = 0;
