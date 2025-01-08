@@ -1,9 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Minion : MonoBehaviour
 {
+
+    [SerializeField] private float _MovementSpeed = 70f; // Viteza generală de mișcare
+    [SerializeField] private float _MaxSpeed = 70f; // Viteza maximă permisă pentru Rigidbody
+                                      
+    private bool isMoving = false; // Flag pentru verificarea mișcării
+
     [Header("References")]
     public int health; // Health of the minion
     public float detectionRange = 20f; // Range to detect nearest turret
@@ -15,6 +21,7 @@ public class Minion : MonoBehaviour
     private bool isInHittingRange = false;
     public int damagePerSecond = 10; // Damage dealt per second
     private float damageTimer = 0f;
+    private Rigidbody _rigidbody;
 
     private void Start()
     {
@@ -23,6 +30,13 @@ public class Minion : MonoBehaviour
         toFollow = FindNearestTurret();
 
         _animator = GetComponent<Animator>();
+        _rigidbody = GetComponent<Rigidbody>();
+
+        // Blocăm rotația pentru a evita răsturnarea
+        _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
+                                 RigidbodyConstraints.FreezeRotationY |
+                                 RigidbodyConstraints.FreezePositionY |
+                                 RigidbodyConstraints.FreezeRotationZ;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,9 +89,9 @@ public class Minion : MonoBehaviour
         LookAtTarget();
 
         // Follow the current target if movement is allowed
-        if (canMove)
+        if (canMove && toFollow != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, toFollow.transform.position, Time.deltaTime * 30f);
+            HandleMovement();
         }
 
         // Deal damage if in hitting range
@@ -87,6 +101,42 @@ public class Minion : MonoBehaviour
         }
     }
 
+    private void HandleMovement()
+    {
+        if (toFollow == null) return;
+
+        isMoving = false; // Resetăm flag-ul de mișcare
+        Vector3 moveDirection = Vector3.zero;
+
+        // Direcția către țintă
+        Vector3 direction = (toFollow.transform.position - transform.position).normalized;
+
+        if (direction.magnitude > 0.1f)
+        {
+            isMoving = true;
+            moveDirection = direction;
+        }
+
+        // Aplicăm forță pentru mișcare cu Rigidbody
+        if (isMoving)
+        {
+            _rigidbody.AddForce(moveDirection.normalized * 30f, ForceMode.Force);
+
+            // Limităm viteza maximă
+            if (_rigidbody.linearVelocity.magnitude > _MaxSpeed)
+            {
+                _rigidbody.linearVelocity = _rigidbody.linearVelocity.normalized * 30f;
+            }
+
+            _animator.SetInteger("AnimState", 1); // Animatie de mers
+        }
+        else
+        {
+            // Dacă nu se mișcă, zero-izăm viteza orizontală
+            _rigidbody.linearVelocity = new Vector3(0, _rigidbody.linearVelocity.y, 0);
+            _animator.SetInteger("AnimState", 0); // Animatie Idle
+        }
+    }
 
     private void OnEnable()
     {
