@@ -2914,7 +2914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_Name
-      value: Turret (2)
+      value: Turret 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_TagString
@@ -6242,6 +6242,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!114 &832440899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832440890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb76750be22c684b9326f961130b910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turretPositions:
+  - {fileID: 1670029268}
+  - {fileID: 1073677587}
+  - {fileID: 386969355}
+  - {fileID: 1157021197}
+  - {fileID: 856548491}
+  teleportOffsetY: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -6455,7 +6474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_Name
-      value: Turret (4)
+      value: Turret 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_TagString
@@ -7692,7 +7711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_Name
-      value: Turret (1)
+      value: Turret 2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_TagString
@@ -8645,7 +8664,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_Name
-      value: Turret (3)
+      value: Turret 4
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_TagString
@@ -9649,6 +9668,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7549ca74b01b7cb4588277745a10fbbe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 832440898}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7549ca74b01b7cb4588277745a10fbbe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 832440899}
   m_SourcePrefab: {fileID: 100100000, guid: 7549ca74b01b7cb4588277745a10fbbe, type: 3}
 --- !u!4 &1329418808 stripped
 Transform:
@@ -12069,7 +12091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_Name
-      value: Turret
+      value: Turret 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 826a38aadc08b6541a813c22416260dc, type: 3}
       propertyPath: m_TagString
