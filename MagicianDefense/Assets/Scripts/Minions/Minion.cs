@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Minion : MonoBehaviour
@@ -23,6 +24,9 @@ public class Minion : MonoBehaviour
     private float damageTimer = 0f;
     private Rigidbody _rigidbody;
 
+    [Header("UI Elements")]
+    [SerializeField] private TMP_Text healthText;
+
     private void Start()
     {
 
@@ -37,6 +41,9 @@ public class Minion : MonoBehaviour
                                  RigidbodyConstraints.FreezeRotationY |
                                  RigidbodyConstraints.FreezePositionY |
                                  RigidbodyConstraints.FreezeRotationZ;
+
+
+        UpdateHealthUI();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -282,11 +289,20 @@ public class Minion : MonoBehaviour
         health -= amount;
         Debug.Log($"Minion took {amount} damage. Remaining health: {health}");
 
+        UpdateHealthUI();
         // Destroy the minion if health drops to zero or below
         if (health <= 0)
         {
             Destroy(gameObject);
             Debug.Log("Minion destroyed!");
+        }
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthText != null)
+        {
+            healthText.text = $"HP: {health}";
         }
     }
 }
