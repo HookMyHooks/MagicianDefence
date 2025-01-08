@@ -50,6 +50,8 @@ namespace Assets.Scripts.Utils
             if (turretPosition != null)
             {
                 Vector3 newPosition = turretPosition.position + Vector3.up * teleportOffsetY;
+                
+                newPosition.y = 6f;
                 transform.position = newPosition;
                 Debug.Log($"Wizard teleported to {turretPosition.name} at {newPosition}");
             }
