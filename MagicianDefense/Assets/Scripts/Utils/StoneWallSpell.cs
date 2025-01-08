@@ -68,7 +68,7 @@ namespace Assets.Scripts.Utils
 
 
             // Distruge după 10 secunde
-            //    GameObject.Destroy(stoneWall, 5f);
+              GameObject.Destroy(stoneWall, 5f);
         }
 
     }
