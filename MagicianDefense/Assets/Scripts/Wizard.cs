@@ -26,7 +26,7 @@ namespace Assets.Scripts.Utils
 
         [Header("Stone Ball Settings")]
         public GameObject stoneBallPrefab;  // Prefab pentru mingea de piatră
-        public float stoneBallSpeed = 20f;
+        public float stoneBallSpeed = 100f;
 
         [Header("Stone Wall Settings")]
         public GameObject stoneWallPrefab;
@@ -54,17 +54,48 @@ namespace Assets.Scripts.Utils
 
         private void Update()
         {
+            Transform targetMinion = GetClosestMinion();
             int key = GetCurrentButton();
 
-            if(key != 0)
+            if (key != 0 && targetMinion != null)
             {
                 var spell = spellManager.GetSpell(key);
                 if (currentMana < spell.Cost) return;
-                bool hasCasted = spell.Cast(transform);
-                if(hasCasted) currentMana -= spell.Cost;
+
+                bool hasCasted = spell.Cast(targetMinion);
+                if (hasCasted) currentMana -= spell.Cost;
             }
-    
         }
+
+        private Transform GetClosestMinion()
+        {
+            GameObject[] minions = GameObject.FindGameObjectsWithTag("Minion");
+            Transform closest = null;
+            float minDistance = Mathf.Infinity;
+            float maxViewAngle = 45f; // Field of view angle (e.g., 45 degrees on either side of forward)
+
+            foreach (var minion in minions)
+            {
+                Vector3 directionToMinion = (minion.transform.position - transform.position).normalized;
+
+                // Check if the minion is within the wizard's field of view
+                float angle = Vector3.Angle(transform.forward, directionToMinion);
+                if (angle <= maxViewAngle)
+                {
+                    // Check if the minion is closer than the currently selected one
+                    float distance = Vector3.Distance(transform.position, minion.transform.position);
+                    if (distance < minDistance)
+                    {
+                        closest = minion.transform;
+                        minDistance = distance;
+                    }
+                }
+            }
+
+            return closest;
+        }
+
+
 
 
         int GetCurrentButton()

@@ -25,12 +25,19 @@ namespace Assets.Scripts.Utils
 
         public override bool Cast(Transform magicianTransform)
         {
-            // Verifică dacă vraja poate fi lansată
             if (CanCast())
             {
-                base.Cast(magicianTransform); // Actualizează timpul ultimei lansări
+                // Find the closest minion as the target
+                Transform targetMinion = FindClosestMinion(magicianTransform);
+                if (targetMinion == null)
+                {
+                    Debug.Log("No target minion found.");
+                    return false;
+                }
+
+                base.Cast(magicianTransform);
                 Debug.Log($"{Name} casted.");
-                ShootStoneBall(magicianTransform);
+                ShootStoneBall(magicianTransform, targetMinion);
                 return true;
             }
             else
@@ -41,32 +48,49 @@ namespace Assets.Scripts.Utils
             }
         }
 
-        private void ShootStoneBall(Transform magicianTransform)
+        private Transform FindClosestMinion(Transform magicianTransform)
         {
-            // Instanțiază mingea de piatră la poziția toiagului
+            GameObject[] minions = GameObject.FindGameObjectsWithTag("Minion");
+            Transform closest = null;
+            float minDistance = Mathf.Infinity;
+
+            foreach (var minion in minions)
+            {
+                float distance = Vector3.Distance(magicianTransform.position, minion.transform.position);
+                if (distance < minDistance)
+                {
+                    closest = minion.transform;
+                    minDistance = distance;
+                }
+            }
+            return closest;
+        }
+
+
+        private void ShootStoneBall(Transform magicianTransform, Transform targetMinion)
+        {
             GameObject stoneBall = GameObject.Instantiate(stoneBallPrefab, wandTip.position, wandTip.rotation);
 
-            // Adaugă Rigidbody dacă nu există deja
-            Rigidbody rb = stoneBall.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = stoneBall.AddComponent<Rigidbody>();
-            }
-
-            // Setează proprietățile Rigidbody
-            rb.useGravity = true; // Mingea de piatră cade după ce este aruncată
-            rb.mass = 1f;         // Ajustează masa pentru a simula greutatea
+            // Add Rigidbody and configure it
+            Rigidbody rb = stoneBall.GetComponent<Rigidbody>() ?? stoneBall.AddComponent<Rigidbody>();
+            rb.useGravity = false; // Prevent the "vaulting" behavior
+            rb.mass = 1f;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
 
-            // Calculează direcția bazată pe rotația magicianului
-            Vector3 shootDirection = magicianTransform.forward;
-            rb.AddForce(shootDirection * stoneBallSpeed, ForceMode.Impulse);
+            // Calculate the direction to the target
+            Vector3 direction = (targetMinion.position - wandTip.position).normalized;
 
-            // Aplică mișcare mingii în direcția privirii magicianului
-            rb.linearVelocity = shootDirection * stoneBallSpeed;
+            // Apply force toward the target
+            rb.AddForce(direction * stoneBallSpeed * 5f, ForceMode.Impulse);
 
-            // Distruge mingea după 5 secunde pentru optimizare
+            // Add collision handling
+            StoneBallCollision collisionHandler = stoneBall.AddComponent<StoneBallCollision>();
+            collisionHandler.damage = (int)this.Damage; // Pass the damage value from the spell
+
+            // Destroy the stone ball after a certain time to clean up
             GameObject.Destroy(stoneBall, 5f);
         }
+
+
     }
 }

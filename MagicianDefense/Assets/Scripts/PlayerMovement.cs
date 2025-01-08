@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        HandleRotation();
+        //HandleRotation();
     }
 
     void FixedUpdate()
