@@ -6,7 +6,7 @@ namespace Assets.Scripts.Utils
     {
         private MonoBehaviour monoBehaviour;
         private GameObject stoneWallPrefab;
-        private float stoneWallDistance = 50f; // Distanța față de magician
+        private float stoneWallDistance = 10.0f; // Distanța față de magician
 
         public StoneWallSpell(MonoBehaviour monoBehaviour, GameObject stoneWallPrefab)
         {
