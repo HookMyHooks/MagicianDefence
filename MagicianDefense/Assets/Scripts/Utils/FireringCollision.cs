@@ -24,16 +24,6 @@ public class FireringCollision : MonoBehaviour
             enemyMinion.TakeDamage(damage);
         }
 
-        if (collision.CompareTag("Player"))
-        {
-            Wizard player = GameObject.FindAnyObjectByType<Wizard>();
-            // Apply damage to the turret
-            player.TakeDamage(damage);
-
-            Debug.Log("Wizzard took damage onEnter");
-        }
-
-
         //// Check if the object hit has the "Turret" component
         //Turret turret = collision.gameObject.GetComponent<Turret>();
 
@@ -73,19 +63,6 @@ public class FireringCollision : MonoBehaviour
             }
         }
 
-        if (collision.CompareTag("Player"))
-        {
-            playerDamageTimer += Time.deltaTime;
-            if (playerDamageTimer >= damageInterval)
-            {
-                Wizard player = collision.GetComponent<Wizard>();
-                if (player != null)
-                {
-                    player.TakeDamage(damage);
-                    Debug.Log("Wizard took damage on Stay");
-                }
-                playerDamageTimer = 0f; // Reset the timer
-            }
-        }
+       
     }
 }

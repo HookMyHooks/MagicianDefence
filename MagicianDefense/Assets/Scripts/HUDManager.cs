@@ -53,7 +53,7 @@ public class HUDManager : MonoBehaviour
 
         if (wizard != null)
         {
-            healthSlider.value = Mathf.Lerp(healthSlider.value, (float)wizard.health / 100f, Time.deltaTime * 10f);
+            healthSlider.value = Mathf.Lerp(healthSlider.value, (float)wizard.GetHealth() / 100f, Time.deltaTime * 10f);
             manaSlider.value = Mathf.Lerp(manaSlider.value, (float)wizard.currentMana / 500f, Time.deltaTime * 10f);
         }
     }

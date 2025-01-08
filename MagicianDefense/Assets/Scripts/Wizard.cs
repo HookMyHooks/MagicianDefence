@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Utils
 {
@@ -11,7 +12,8 @@ namespace Assets.Scripts.Utils
 
         //added fireWall prefab here
         public GameObject fireWallPrefab;
-        public int health;
+
+        private Health _health;
 
         [Header("Mana Regeneration")]
         public int currentMana = 500;          // Current mana capacity
@@ -33,6 +35,8 @@ namespace Assets.Scripts.Utils
 
         void Start()
         {
+
+            _health = GetComponent<Health>();
             // Asigură-te că layer-urile nu ignoră coliziunea
             Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Wizard"), LayerMask.NameToLayer("Obstacle"), false);
 
@@ -65,9 +69,20 @@ namespace Assets.Scripts.Utils
                 bool hasCasted = spell.Cast(targetMinion);
                 if (hasCasted) currentMana -= spell.Cost;
             }
+
+
+            //get a lose screen
+            if(_health.health <= 0)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+        public int GetHealth()
+        {
+            return _health.health;   
         }
 
-        private Transform GetClosestMinion()
+        public Transform GetClosestMinion()
         {
             GameObject[] minions = GameObject.FindGameObjectsWithTag("Minion");
             Transform closest = null;
@@ -117,15 +132,7 @@ namespace Assets.Scripts.Utils
             return 0;
         }
 
-        public void TakeDamage(int value)
-        {
-            health -= value;
-
-            if (health == 0)
-            {
-                Destroy(gameObject);
-            }
-        }
+       
 
         private void RegenerateMana()
         {

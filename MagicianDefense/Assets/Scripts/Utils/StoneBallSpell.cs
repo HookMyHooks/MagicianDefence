@@ -53,18 +53,28 @@ namespace Assets.Scripts.Utils
             GameObject[] minions = GameObject.FindGameObjectsWithTag("Minion");
             Transform closest = null;
             float minDistance = Mathf.Infinity;
+            float maxAngle = 45f; // Define the FOV angle (e.g., 45 degrees in front of the wizard)
 
             foreach (var minion in minions)
             {
+                Vector3 directionToMinion = (minion.transform.position - magicianTransform.position).normalized;
+
+                // Check if the minion is within range
                 float distance = Vector3.Distance(magicianTransform.position, minion.transform.position);
                 if (distance < minDistance)
                 {
-                    closest = minion.transform;
-                    minDistance = distance;
+                    // Check if the minion is within the FOV
+                    float angle = Vector3.Angle(magicianTransform.forward, directionToMinion);
+                    if (angle <= maxAngle) // Minion is within the FOV
+                    {
+                        closest = minion.transform;
+                        minDistance = distance;
+                    }
                 }
             }
             return closest;
         }
+
 
 
         private void ShootStoneBall(Transform magicianTransform, Transform targetMinion)

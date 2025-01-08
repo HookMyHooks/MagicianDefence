@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -13,14 +14,22 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
         {
-            TurretDestroyed?.Invoke(gameObject); // Notify subscribers
-            Destroy(gameObject);
+            if (gameObject.tag == "Turret")
+            {
+                TurretDestroyed?.Invoke(gameObject); // Notify subscribers
+                Destroy(gameObject);
+            }
+                if (gameObject.tag == "Player")
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
     }
 
     private void Start()
     {
-        TurretManager.Instance.RegisterTurret(gameObject);
+        if(gameObject.tag == "Turret")
+            TurretManager.Instance.RegisterTurret(gameObject);
     }
 
     private void OnDestroy()
