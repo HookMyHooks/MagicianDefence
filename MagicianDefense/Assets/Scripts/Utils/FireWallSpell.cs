@@ -19,14 +19,20 @@ namespace Assets.Scripts.Utils
             this.CoolDown = 20;
         }
 
-        public override bool Cast(Transform position)
+        public override bool Cast(Transform magicianTransform)
         {
-            // Check if the spell is ready to be cast
             if (CanCast())
             {
-                base.Cast(position); // Updates the lastCastTime in the base class
+                Transform targetMinion = FindClosestMinion(magicianTransform);
+                if (targetMinion == null)
+                {
+                    Debug.Log("No target minion found for FireWall.");
+                    return false;
+                }
+
+                base.Cast(magicianTransform);
                 Debug.Log($"{Name} casted.");
-                SpawnFirewall(position); // Only call ShootFireball if the cooldown has expired
+                SpawnFirewall(magicianTransform, targetMinion);
                 return true;
             }
             else
@@ -37,25 +43,57 @@ namespace Assets.Scripts.Utils
             }
         }
 
-        private void SpawnFirewall(Transform transform)
+
+        private Transform FindClosestMinion(Transform magicianTransform)
         {
-            // Calculează poziția FireWall-ului
-            Vector3 spawnPosition = transform.position + transform.forward * 100f; // Poziționează FireWall-ul în fața personajului
+            GameObject[] minions = GameObject.FindGameObjectsWithTag("Minion");
+            Transform closest = null;
+            float minDistance = Mathf.Infinity;
+            float maxAngle = 45f; // Define the FOV angle (e.g., 45 degrees in front of the wizard)
 
-            spawnPosition.y = transform.position.y+20f; // Adaugă 2 unități pe axa Y (ajustează valoarea după nevoie)
+            foreach (var minion in minions)
+            {
+                Vector3 directionToMinion = (minion.transform.position - magicianTransform.position).normalized;
 
-            Quaternion fireWallRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-
-            // Instanțiază FireWall-ul
-         //   GameObject fireWall = GameObject.Instantiate(fireWallPrefab, spawnPosition, Quaternion.identity);
-
-
-            GameObject fireWall = GameObject.Instantiate(fireWallPrefab, spawnPosition, fireWallRotation);
-            // Aliniază rotația
-            fireWall.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-
-            // Distruge FireWall-ul după 5 secunde
-            GameObject.Destroy(fireWall, 5f);
+                // Check if the minion is within range
+                float distance = Vector3.Distance(magicianTransform.position, minion.transform.position);
+                if (distance < minDistance)
+                {
+                    // Check if the minion is within the FOV
+                    float angle = Vector3.Angle(magicianTransform.forward, directionToMinion);
+                    if (angle <= maxAngle) // Minion is within the FOV
+                    {
+                        closest = minion.transform;
+                        minDistance = distance;
+                    }
+                }
+            }
+            return closest;
         }
+        private void SpawnFirewall(Transform magicianTransform, Transform targetMinion)
+        {
+            if (targetMinion == null)
+            {
+                Debug.LogWarning("No target minion found. FireWall not spawned.");
+                return;
+            }
+
+            // Calculate position in front of the minion
+            Vector3 directionToWizard = (magicianTransform.position - targetMinion.position).normalized;
+            Vector3 spawnPosition = targetMinion.position + directionToWizard  * 10f; // 5 units in front of the minion
+
+            // Adjust height
+            spawnPosition.y = targetMinion.position.y + 1f;
+
+            // Instantiate the firewall
+            GameObject fireWall = GameObject.Instantiate(fireWallPrefab, spawnPosition, Quaternion.identity);
+
+            // Align rotation
+            fireWall.transform.rotation = Quaternion.LookRotation(-directionToWizard);
+
+            // Destroy firewall after 5 seconds
+            GameObject.Destroy(fireWall, 10f);
+        }
+
     }
 }

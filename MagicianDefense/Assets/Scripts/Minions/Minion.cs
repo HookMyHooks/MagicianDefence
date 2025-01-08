@@ -6,8 +6,8 @@ using UnityEngine;
 public class Minion : MonoBehaviour
 {
 
-    [SerializeField] private float _MovementSpeed = 70f; // Viteza generală de mișcare
-    [SerializeField] private float _MaxSpeed = 70f; // Viteza maximă permisă pentru Rigidbody
+    [SerializeField] private float _MovementSpeed; // Viteza generală de mișcare
+    [SerializeField] private float _MaxSpeed; // Viteza maximă permisă pentru Rigidbody
                                       
     private bool isMoving = false; // Flag pentru verificarea mișcării
 
@@ -127,7 +127,7 @@ public class Minion : MonoBehaviour
         // Aplicăm forță pentru mișcare cu Rigidbody
         if (isMoving)
         {
-            _rigidbody.AddForce(moveDirection.normalized * 30f, ForceMode.Force);
+            _rigidbody.AddForce(moveDirection.normalized * 50f, ForceMode.Force);
 
             // Limităm viteza maximă
             if (_rigidbody.linearVelocity.magnitude > _MaxSpeed)
