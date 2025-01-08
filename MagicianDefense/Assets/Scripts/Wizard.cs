@@ -33,6 +33,12 @@ namespace Assets.Scripts.Utils
 
         void Start()
         {
+            // Asigură-te că layer-urile nu ignoră coliziunea
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Wizard"), LayerMask.NameToLayer("Obstacle"), false);
+
+            // Alte inițializări existente
+            Debug.Log("Coliziunea între Wizard și Obstacle este acum activată.");
+
             var spellManagerObject = new GameObject("SpellManager");
             spellManager = spellManagerObject.AddComponent<SpellManager>();
 

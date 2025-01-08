@@ -39,7 +39,7 @@ namespace Assets.Scripts.Utils
         {
             // Poziționează zidul mai în față
             Vector3 spawnPosition = magicianTransform.position + magicianTransform.forward * stoneWallDistance;
-
+                
             // Ajustează înălțimea
             spawnPosition.y = magicianTransform.position.y + 15f;
 
@@ -49,8 +49,26 @@ namespace Assets.Scripts.Utils
             // Aliniază rotația
             stoneWall.transform.rotation = Quaternion.Euler(0, magicianTransform.eulerAngles.y, 0);
 
+            if (stoneWall.GetComponent<Rigidbody>() == null)
+            {
+                Rigidbody rb = stoneWall.AddComponent<Rigidbody>();
+                rb.isKinematic = true; // Obiect fix
+                rb.useGravity = false;
+            }
+
+
+            if (stoneWall.GetComponent<Collider>() == null)
+            {
+                BoxCollider collider = stoneWall.AddComponent<BoxCollider>();
+                collider.isTrigger = false;
+            }
+
+
+            stoneWall.layer = LayerMask.NameToLayer("Obstacle"); // Asigură-te că are layer-ul corect
+
+
             // Distruge după 10 secunde
-            GameObject.Destroy(stoneWall, 10f);
+            //    GameObject.Destroy(stoneWall, 5f);
         }
 
     }
