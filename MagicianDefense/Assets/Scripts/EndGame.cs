@@ -1,28 +1,41 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EndGame : MonoBehaviour
+public class MinionChecker : MonoBehaviour
 {
+    [Header("Check Interval")]
+    [Tooltip("How often to check for remaining minions (in seconds).")]
+    public float checkInterval = 10f;
 
-    private Health health;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Target Scene")]
+    [Tooltip("The name of the scene to load when all minions are gone.")]
+    public string winSceneName = "Winn";
+
+    private void Start()
     {
-        health = GetComponent<Health>();    
+        // Start the repeating check
+        InvokeRepeating(nameof(CheckForMinions), checkInterval, checkInterval);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckForMinions()
     {
-        GameObject[] minions = GameObject.FindGameObjectsWithTag("Minion").;
-        if(minions == null)
-        {
-            SceneManager.LoadScene("Winn");
-        }
+        // Find all GameObjects tagged as "Minion"
+        GameObject[] minions = GameObject.FindGameObjectsWithTag("Minion");
 
-        if(health.health <=0)
+        // Log the number of minions found
+        Debug.Log($"MinionChecker: {minions.Length} minions remaining on the map.");
+
+        // If no minions are left, load the win scene
+        if (minions.Length == 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+            Debug.Log("No minions left! Loading win scene...");
+            SceneManager.LoadScene(winSceneName);
         }
+    }
+
+    private void OnDisable()
+    {
+        // Stop the repeating invocation when the script is disabled
+        CancelInvoke(nameof(CheckForMinions));
     }
 }

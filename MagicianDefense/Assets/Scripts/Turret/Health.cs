@@ -16,6 +16,10 @@ public class Health : MonoBehaviour
         {
             if (gameObject.tag == "Turret")
             {
+                if(gameObject.name == "Baker_house")
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
                 TurretDestroyed?.Invoke(gameObject); // Notify subscribers
                 Destroy(gameObject);
             }
