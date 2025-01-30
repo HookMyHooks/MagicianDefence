@@ -474,8 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dd945383ebe48c469d00b1c112fa3bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MovementSpeed: 200
-  _MaxSpeed: 200
+  _MovementSpeed: 50
+  _MaxSpeed: 50
   health: 100
   detectionRange: 20
   damagePerSecond: 10

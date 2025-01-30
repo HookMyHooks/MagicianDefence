@@ -8,7 +8,7 @@ public class Minion : MonoBehaviour
 
     [SerializeField] private float _MovementSpeed; // Viteza generală de mișcare
     [SerializeField] private float _MaxSpeed; // Viteza maximă permisă pentru Rigidbody
-                                      
+
     private bool isMoving = false; // Flag pentru verificarea mișcării
 
     [Header("References")]
@@ -42,7 +42,8 @@ public class Minion : MonoBehaviour
                                  RigidbodyConstraints.FreezePositionY |
                                  RigidbodyConstraints.FreezeRotationZ;
 
-
+        _rigidbody.mass = 100f; // Heavy mass makes it harder to push
+        _rigidbody.drag = 10f; // Increases resistance to movement
         UpdateHealthUI();
     }
 
@@ -127,7 +128,9 @@ public class Minion : MonoBehaviour
         // Aplicăm forță pentru mișcare cu Rigidbody
         if (isMoving)
         {
-            _rigidbody.AddForce(moveDirection.normalized * 50f, ForceMode.Force);
+            //_rigidbody.AddForce(moveDirection.normalized * 50f, ForceMode.Force);
+            _rigidbody.velocity = moveDirection.normalized * _MaxSpeed;
+
 
             // Limităm viteza maximă
             if (_rigidbody.linearVelocity.magnitude > _MaxSpeed)
@@ -135,13 +138,11 @@ public class Minion : MonoBehaviour
                 _rigidbody.linearVelocity = _rigidbody.linearVelocity.normalized * 30f;
             }
 
-            _animator.SetInteger("AnimState", 1); // Animatie de mers
         }
         else
         {
             // Dacă nu se mișcă, zero-izăm viteza orizontală
             _rigidbody.linearVelocity = new Vector3(0, _rigidbody.linearVelocity.y, 0);
-            _animator.SetInteger("AnimState", 0); // Animatie Idle
         }
     }
 
@@ -305,4 +306,13 @@ public class Minion : MonoBehaviour
             healthText.text = $"HP: {health}";
         }
     }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            _rigidbody.velocity = Vector3.zero; // Stops unwanted movement
+            _rigidbody.angularVelocity = Vector3.zero; // Prevents rotation drift
+        }
+    }
+
 }
