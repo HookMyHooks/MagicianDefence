@@ -11,16 +11,18 @@ public class HUDManager : MonoBehaviour
     public SpellCoolDownManager spellCoolDownManager; // Reference to the manager
     public Slider healthSlider; // Reference to the health slider
     public Slider manaSlider;   // Reference to the mana slider
+    [SerializeField] private Health _HealthPoints;
+
 
     void Start()
     {
+        
     }
 
     void Update()
     {
-        var spellManager = FindFirstObjectByType<SpellManager>();
         var wizard = FindFirstObjectByType<Wizard>();
-
+        var spellManager = FindFirstObjectByType<SpellManager>();
         var availableSpells = spellManager.GetSpells();
         Debug.Log(availableSpells.Count);
         Debug.Log("spell manager null" + spellManager == null);
@@ -55,7 +57,7 @@ public class HUDManager : MonoBehaviour
 
         if (wizard != null)
         {
-            healthSlider.value = Mathf.Lerp(healthSlider.value, (float)wizard.GetHealth() / 100f, Time.deltaTime * 10f);
+            healthSlider.value = Mathf.Lerp(healthSlider.value, (float)_HealthPoints.health / 100f, Time.deltaTime * 10f);
             manaSlider.value = Mathf.Lerp(manaSlider.value, (float)wizard.currentMana / 500f, Time.deltaTime * 10f);
         }
     }

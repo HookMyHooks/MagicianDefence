@@ -52,10 +52,9 @@ public class Minion : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Set the player as the target to follow
-            canMove = true;
-            toFollow = other.gameObject;
-            Debug.Log("Player entered detection range. Following player.");
-            _animator.SetBool("isHitting", false);
+            canMove = false;
+            isInHittingRange = true;
+            _animator.SetBool("isHitting", true);
         }
 
         if (other.CompareTag("TurretHittingRange"))
@@ -65,20 +64,22 @@ public class Minion : MonoBehaviour
             _animator.SetBool("isHitting", true);
         }
 
-        //if (other.CompareTag("PlayerHittingRange"))
-        //{
-        //    canMove = false;
-        //    isInHittingRange = true;
-        //    _animator.SetBool("isHitting", true);
-        //}
+        if (other.CompareTag("PlayerHittingRange"))
+        {
+            Debug.Log("Player entered detection range. Following player.");
+            canMove = true;
+            toFollow = other.transform.parent.gameObject;
+            _animator.SetBool("isHitting", false);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("PlayerHittingRange"))
         {
+
             // When the player leaves the trigger zone, switch back to the nearest turret
-            toFollow = FindNearestTurret();
+            toFollow = FindNearestTurret(); 
             Debug.Log("Player exited detection range. Returning to nearest turret.");
         }
 
@@ -88,6 +89,14 @@ public class Minion : MonoBehaviour
             isInHittingRange = false;
             _animator.SetBool("isHitting", false);
             Debug.Log("Minion exited turret hitting range");
+        }
+
+        if(other.CompareTag("Player"))
+        {
+            canMove = true;
+            isInHittingRange = false; ;
+            _animator.SetBool("isHitting", false);
+
         }
     }
 

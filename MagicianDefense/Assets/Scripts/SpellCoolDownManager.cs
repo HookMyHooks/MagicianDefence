@@ -5,7 +5,7 @@ using Assets.Scripts.Utils;
 
 public class SpellCoolDownManager : MonoBehaviour
 {
-    public List<Spell> availableSpells; // List of spells
+    [SerializeField] private List<Spell> availableSpells; // List of spells
     public SpellManager spellManager;
 
     void Start()
