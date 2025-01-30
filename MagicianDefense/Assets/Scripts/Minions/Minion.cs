@@ -44,6 +44,7 @@ public class Minion : MonoBehaviour
 
         _rigidbody.mass = 100f; // Heavy mass makes it harder to push
         _rigidbody.drag = 10f; // Increases resistance to movement
+        _rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         UpdateHealthUI();
     }
 
@@ -321,6 +322,12 @@ public class Minion : MonoBehaviour
         {
             _rigidbody.velocity = Vector3.zero; // Stops unwanted movement
             _rigidbody.angularVelocity = Vector3.zero; // Prevents rotation drift
+        }
+
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            canMove = false; // Stop movement on collision
+            Debug.Log("Minion collided with the wall and stopped.");
         }
     }
 

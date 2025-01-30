@@ -829,6 +829,7 @@ MonoBehaviour:
   spellCoolDownManager: {fileID: 2069410786}
   healthSlider: {fileID: 462262376}
   manaSlider: {fileID: 1226305423}
+  _HealthPoints: {fileID: 832440898}
 --- !u!4 &83656215
 Transform:
   m_ObjectHideFlags: 0
@@ -13475,7 +13476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcea0431019935143b0f522cf0c38842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInitialized: 1
+  isInitialized: 0
 --- !u!4 &1804810270
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ TagManager:
   - PlayerDetection
   - TurretHittingRange
   - PlayerHittingRange
+  - Fireball
+  - Wall
   layers:
   - Default
   - TransparentFX
